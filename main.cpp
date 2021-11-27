@@ -1,8 +1,18 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <stdio.h>
 
 using namespace std;
+
+std::string Matriz(string tipo1, string tipo2){
+    /*string devilidades[14][14] = {"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"};
+    for(int i = 1; i >= 14; i++){
+        for(int j = 1; j >= 14; j++){
+            printf("dato: %s del capo i: %s y campo j: %s", devilidades[i][j], i, j);
+        }
+    }*/
+}
 
 int main()
 {
@@ -13,13 +23,14 @@ int main()
     for(int i = 1; i <= 14; i++)
         cout << i << ") " << pokemones[i] << endl;
     cin >> opcion;*/
+
     string nombre;
     int medallas;
 
     cout << "Hola aventurero, es un gusto verte por aqui, empecemos por crear tu perfil, por favor ingresa tu nombre en este apartado: " << endl;
     cin >> nombre;  Sleep(1000);
     cout << "Todo entrenador que se respeta presume de sus medallas, dime con cuantas medallas cuentas tu: " << endl;
-    cin >> medallas;    Sleep(1000);
+    cin >> medallas;    Sleep(1500);
     cout << "Grandioso, lo siguiente que haremos va a ser crear un equipo, podras crear hasta un maximo de 2 equipos los cuales cuentan con un limite de 3 pokemones por equipo" << endl;
     //entrenador.crear(nombre, medallas);
     Sleep(1000);

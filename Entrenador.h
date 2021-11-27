@@ -2,13 +2,14 @@
 #define ENTRENADOR_H
 
 #include <string>
+#include "Equipo.h"
 
 class Entrenador
 {
     public:
         Entrenador();
         Entrenador(std::string, int);
-        void cambiarNombre(std:string);
+        void cambiarNombre(std::string);
 
     private:
         std::string nombre;
