@@ -8,13 +8,16 @@ class Entrenador
 {
     public:
         Entrenador();
-        Entrenador(std::string, int);
+        Entrenador(std::string);
         void cambiarNombre(std::string);
+
+        //SetTers y getTers
+        void setNombre(std::string);
+        std::string getNombre();
 
     private:
         std::string nombre;
-        int medallas;
-        Equipo team1, team2, team3;
+        Equipo team1, team2;
 };
 
 #endif //ENTRENADOR_H

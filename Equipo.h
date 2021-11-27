@@ -8,8 +8,17 @@
 class Equipo
 {
     public:
+        //Constructores
         Equipo();
         Equipo(std::string, Pokemon, Pokemon, Pokemon);
+
+        //Setters y Getters
+        void setNombre(std::string);
+        std::string getNombre();
+        
+        
+        //Interacciones
+        std::string getRandPokeType();
 
     private:
         std::string nombre;
