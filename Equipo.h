@@ -10,12 +10,16 @@ class Equipo
     public:
         //Constructores
         Equipo();
-        Equipo(std::string, Pokemon, Pokemon, Pokemon);
 
         //Setters y Getters
         void setNombre(std::string);
         std::string getNombre();
-        
+        void setPokemon1(Pokemon);
+        Pokemon getPokemon1();
+        void setPokemon2(Pokemon);
+        Pokemon getPokemon2();
+        void setPokemon3(Pokemon); 
+        Pokemon getPokemon3();       
         
         //Interacciones
         std::string getRandPokeType();

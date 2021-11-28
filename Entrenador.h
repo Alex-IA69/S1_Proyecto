@@ -7,13 +7,17 @@
 class Entrenador
 {
     public:
+        //Constructores
         Entrenador();
         Entrenador(std::string);
-        void cambiarNombre(std::string);
 
-        //SetTers y getTers
+        //Setters y Getters
         void setNombre(std::string);
         std::string getNombre();
+        void setTeam1(Equipo);
+        void setTeam2(Equipo);
+        
+        //estoEsobjeto.mandarA(getNombre());
 
     private:
         std::string nombre;

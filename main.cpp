@@ -18,13 +18,24 @@ using namespace std;
 //--------------------------------------------------------------DECLARACION FUNCIONES
 void initMain();
 void crearPokemon();
+void inicio();
+
+//--------------------------------------------------------------GLOBALES
+Entrenador trainer1, trainer2;
+Equipo team;
+Pokemon tempPoke;
 
 //--------------------------------------------------------------MAIN
 int main(){
-	initMain();     
+    inicio();
+    //variables del switch
+    int opcion_1 = 0, opcion_2 = 0;
+    string nombre1;
+    char menu1;
 
+    string nombre;
     char opcion;
-    cout << "Que te gustaria relaizar?:\n" <<
+    cout << "Que te gustaria realizar?\n" <<
             "1) Checar perfil\n" <<
             "2) Checar equipo\n" <<
             "3) Checar pokemones\n" <<
@@ -39,7 +50,7 @@ int main(){
     {	Menu:
     	cerr<<x.what()<<endl;
     	for(int i = 0; i < 10; i++){
-            Sleep(250);
+            Sleep(500);
             printf(".");
         }
         system("cls");
@@ -54,8 +65,87 @@ int main(){
     }
 
     switch(opcion){
+        
+        goto ReinicioMenu:
         case '1':
-            //Checar perfil
+            perfilnt2:
+            cout << "Cual perfil te gustaria checar?\n" <<
+            "1) Perfil 1\n" <<
+            "2) Perfil 2\n";
+            cin>>opcion_1;
+
+            if(trainer2.getNombre() == "" && opcion_1 == 2){
+                cout << "Opcion invalida ya que el perfil 2 esta vacio, intenta de nuevo" << endl;
+                Sleep(2000);
+                system("cls");
+                goto perfilnt2;
+            }
+
+            if(opcion_1 == 1 || opcion_1 == 2){
+                perfil_ingreso1:
+                cout << "Que quiere hacer?\n" <<
+                "1) Editar nombre\n" <<
+                "2) Mostrar perfil\n";
+                cin>>opcion_2;
+
+                if(opcion_2 == 1){
+                    printf("Que nombre le vas a poner al perfil?: ");
+                    cin>>nombre1;
+                    Sleep(1500);
+                    system("cls");  perfil1:
+                    cout << "Estas seguro que quieres ponerle: " << nombre1 << " al perfil " << opcion_1 << "? S/N" << endl;
+                    try
+                    {
+                        cin >> menu1;
+                        Sleep(1000);
+                        if (menu1 != 'S' && menu1 != 'N' && menu1 != 's' && menu1 != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
+                    }
+                    catch (std::invalid_argument& x)
+                    {
+                        cerr << x.what() << endl;
+                        goto perfil1;
+                    }
+                    if(opcion_1 == 1)
+                        trainer1.setNombre(nombre1);
+
+                    else
+                        trainer2.setNombre(nombre1);
+                }
+
+                if(opcion_2 == 2){
+                    if(opcion_1 == 1){
+                        cout << "El nombre del perfil 1 es: " << trainer1.getNombre() << "\n\n, el muy agradable el pibe :)\n\n" << endl;
+
+                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
+                        system("pause");
+                        system("cls");
+                        goto ReinicioMenu;
+                    }
+
+                    else{
+                        cout << "El nombre del perfil 1 es: " << trainer2.getNombre() << "/n/n Es ,uy agradable el pibe :)\n\n" << endl;
+
+                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
+                        system("pause");
+                        system("cls");
+                        goto ReinicioMenu;
+                    }
+                }
+
+                else{
+                    cout << "Opcion no valida, por favor intenta de nuevo" << endl;
+                    Sleep(1500);
+                    system("cls");
+                    goto perfil_ingreso1;
+                }
+            }
+
+            else{
+                cout << "Por favor ingresa (1) o (2), ninguna otra opcion es valida" << endl;
+                Sleep(1500);
+                system("cls");
+                goto perfilnt2;
+            }
             break;
 
         case '2':
@@ -126,17 +216,21 @@ void initMain()
 
 	cout << "Mucho gusto, " << tempNombre << "!\n";
     cout << "Lo siguiente que haremos va a ser crear un equipo, podras crear hasta un maximo de 2 equipos\n" <<
-			"Estos cuentan con un limite de 3 pokemones por equipo\n" <<
+			"Estos cuentan con 3 pokemones por equipo\n" <<
 			"Nuestra guarderia es algo pequena, asi que solo tenemos actualmente 14 tipos de pokemon distintos\n";
-	Sleep(2000);
+    cout << endl;
+    Sleep(1000);
     
+    trainer1.setNombre(tempNombre);
+
 }
 
 //--------------------------------------crearPokemon
 void crearPokemon()
+
 {
     string listaPoke[14] = {"Rattata", "Zubat", "Machop", "Squirtle", "Vulpix", "Bulbasaur", "Voltorb", "Lapras", "Caterpie", "Geodude", "Cubone", "Abra", "Ghastly", "Ekans"};
-    string tempNombre, tempPoke;
+    string tempNombre, tempPokemon;
     char tempAns;
     int numPoke;
 
@@ -151,8 +245,9 @@ void crearPokemon()
     try
     {
         cin >> numPoke;
-        Sleep(1000);
-        if (numPoke > 14 && numPoke < 1) throw std::invalid_argument("Invalid Number");
+        Sleep(500);
+        if (numPoke <= 14 && numPoke >= 1) cout << "";
+        else throw std::invalid_argument("Invalid Number");
     }
     catch (std::invalid_argument)
     {
@@ -160,6 +255,7 @@ void crearPokemon()
         cout << "Opcion no valida, porfavor siga instrucciones\n";
         goto initError2;
     }
+
     //initError3
     initError3:
     cout << "Quieres ponerle nombre a tu " << listaPoke[numPoke-1] << "?\n" <<
@@ -177,6 +273,64 @@ void crearPokemon()
         goto initError3;
     }
 
+    if (tempAns == 'S' || tempAns == 's')
+    {
+        //initError4
+        initError4:
+        cout << "Muy bien, como se va a llamar?\n" << ">>> ";
+        cin >> tempNombre;
+        
+        Sleep(1000);
+        initError5:
+        cout << "Quieres ponerle " << tempNombre << " a tu " << listaPoke[numPoke-1] << "?\n" <<
+                "S/N\n" << ">>> ";
+        try
+        {
+            cin >> tempAns;
+            Sleep(1000);
+            if (tempAns != 'S' && tempAns != 'N' && tempAns != 's' && tempAns != 'n') throw std::invalid_argument(":c");
+            else if (tempAns == 'n' || tempAns == 'N')
+            {
+                system("cls");
+                goto initError4;
+            }
+        }
+        catch (std::invalid_argument)
+        {
+            system("cls");
+            cout << "Opcion no valida\n";
+            goto initError5;
+        }
+        
+        tempPoke.setPoki(tempPokemon);
+        tempPoke.setNombre(tempNombre);        
+    }
+    else
+    {
+        tempPoke.setPoki(tempPokemon);
+        tempPoke.setNombre(tempNombre);
+    }
+    cout << "Tu pokemon ha sido integrado a su equipo con exito!" << endl;
+    
+}
+
+//--------------------------------------inicio
+void inicio()
+{
+    string x;
+    initMain();
+    crearPokemon();
+    team.setPokemon1(tempPoke);
+    cout << "Ahora hay que agregar tus otros dos pokemones\n";
+    crearPokemon();
+    team.setPokemon2(tempPoke);
+    cout << "Y el ultimo de tu equipo...\n";
+    crearPokemon();
+    team.setPokemon3(tempPoke);
+    cout << "Para terminar la preparacion... Como quieres llamar a tu equipo?\n" <<
+            ">>> ";
+    cin >> x;
+    team.setNombre(x);
     system("cls");
-    cout << "Muy bien, como se va a llamar?";
+    cout << "Perfecto, has completado tu perfil, revisa el menu para mas opciones\n";
 }

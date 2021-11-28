@@ -17,6 +17,7 @@ class Pokemon
         void setPoki(std::string);
         void setNombre(std::string);
         std::string getPoki();
+        
         std::string getNombre();
 
         std::string getTipo();
