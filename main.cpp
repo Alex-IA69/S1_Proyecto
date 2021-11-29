@@ -19,6 +19,7 @@ using namespace std;
 void initMain();
 void crearPokemon();
 void inicio();
+void puntitos();
 
 //--------------------------------------------------------------GLOBALES
 Entrenador trainer1, trainer2;
@@ -29,12 +30,11 @@ Pokemon tempPoke;
 int main(){
     inicio();
     //variables del switch
-    int opcion_1 = 0, opcion_2 = 0;
-    string nombre1;
-    char menu1;
+    char opcionC[15];
 
     string nombre;
-    char opcion;
+    char opcion;    
+ReinicioMenu:
     cout << "Que te gustaria realizar?\n" <<
             "1) Checar perfil\n" <<
             "2) Checar equipo\n" <<
@@ -44,95 +44,131 @@ int main(){
     {
         cin >> opcion;
         if (opcion != '1' && opcion != '2' && opcion != '3' && opcion != '4') throw std::invalid_argument("UTILIZA LOS NUMEROS DEL 1 AL 4 WEON CTM!!!");
-        else cout << "Todo bien\n";
     }
     catch (std::invalid_argument& x)
     {	Menu:
     	cerr<<x.what()<<endl;
-    	for(int i = 0; i < 10; i++){
-            Sleep(500);
-            printf(".");
-        }
-        system("cls");
-        
-    	cout << "Por favor ingresa de nuevo una opcion valida:\n1) Checar perfil\n" <<
-            "2) Checar equipo\n" <<
-            "3) Checar pokemones\n" <<
-            "4) Salir\n" << endl;
-        cin >> opcion;
-        if(opcion != '1' && opcion != '2' && opcion != '3' && opcion != '4')
-        	goto Menu;
+    	puntitos();
+        goto ReinicioMenu;
     }
 
+    puntitos();
     switch(opcion){
-        
-        goto ReinicioMenu:
+//---------------------------------------------------------Caso entrenador
         case '1':
             perfilnt2:
             cout << "Cual perfil te gustaria checar?\n" <<
             "1) Perfil 1\n" <<
-            "2) Perfil 2\n";
-            cin>>opcion_1;
+            "2) Perfil 2\n" <<
+            "3) Regresar al menu\n";
+            cin>>opcionC[1];
+            puntitos();
 
-            if(trainer2.getNombre() == "" && opcion_1 == 2){
-                cout << "Opcion invalida ya que el perfil 2 esta vacio, intenta de nuevo" << endl;
-                Sleep(2000);
-                system("cls");
-                goto perfilnt2;
+            if(trainer2.getNombre() == "" && opcionC[1] == '2'){
+            crear_perfil:
+                cout << "Opcion invalida ya que el perfil 2 esta vacio, te gustaria crear un segundo perfil? S/N" << endl;
+                cin>>opcionC[4];
+                try
+                {
+                    cin >> opcionC[4];
+                    Sleep(1000);
+                    if (opcionC[4] != 'S' && opcionC[4] != 'N' && opcionC[4] != 's' && opcionC[4] != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
+
+                    else{
+                        cout << "Cagando" << endl;
+                        puntitos();
+                    }
+                }
+                catch (std::invalid_argument& x)
+                {
+                    cerr << x.what() << endl;
+                    puntitos();
+                    goto crear_perfil;
+                }
+
+                if(opcionC[4] == 'S' || opcionC[4] == 's'){
+                    printf("Que nombre te gustaria ponerle a este perfil?: ");
+                    cin>>nombre;
+                    puntitos();
+                    trainer2.setNombre(nombre);
+                    inicio();
+                    trainer2.setTeam1(team);
+                }
+                if(opcionC[4] == 'N' || opcionC[4] == 'n'){
+                    puntitos();
+                    goto perfilnt2;
+                }
             }
 
-            if(opcion_1 == 1 || opcion_1 == 2){
+            else if(opcionC[1] == '1' || opcionC[1] == '2'){
                 perfil_ingreso1:
                 cout << "Que quiere hacer?\n" <<
                 "1) Editar nombre\n" <<
-                "2) Mostrar perfil\n";
-                cin>>opcion_2;
+                "2) Mostrar perfil\n" <<
+                "3) Volver atras\n";
+                cin>>opcionC[2];
+                puntitos();
+                
+                if(opcionC[2] == '3'){
+                    goto perfilnt2;
+                }
 
-                if(opcion_2 == 1){
+                if(opcionC[2] == '1'){
                     printf("Que nombre le vas a poner al perfil?: ");
-                    cin>>nombre1;
-                    Sleep(1500);
-                    system("cls");  perfil1:
-                    cout << "Estas seguro que quieres ponerle: " << nombre1 << " al perfil " << opcion_1 << "? S/N" << endl;
+                    cin>>nombre;
+                    puntitos();
+                perfil1:
+                    cout << "Estas seguro que quieres ponerle: " << nombre << " al perfil " << opcionC[1] << "? S/N" << endl;
                     try
                     {
-                        cin >> menu1;
+                        cin >> opcionC[3];
                         Sleep(1000);
-                        if (menu1 != 'S' && menu1 != 'N' && menu1 != 's' && menu1 != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
+                        if (opcionC[3] != 'S' && opcionC[3] != 'N' && opcionC[3] != 's' && opcionC[3] != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
+
+                        else{
+                            cout << "guardando nombre" << endl;
+                            puntitos();
+                        }
                     }
                     catch (std::invalid_argument& x)
                     {
                         cerr << x.what() << endl;
+                        puntitos();
                         goto perfil1;
                     }
-                    if(opcion_1 == 1)
-                        trainer1.setNombre(nombre1);
 
-                    else
-                        trainer2.setNombre(nombre1);
-                }
-
-                if(opcion_2 == 2){
-                    if(opcion_1 == 1){
-                        cout << "El nombre del perfil 1 es: " << trainer1.getNombre() << "\n\n, el muy agradable el pibe :)\n\n" << endl;
-
-                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
-                        system("pause");
-                        system("cls");
+                    if(opcionC[1] == '1'){
+                        trainer1.setNombre(nombre);
                         goto ReinicioMenu;
                     }
 
                     else{
-                        cout << "El nombre del perfil 1 es: " << trainer2.getNombre() << "/n/n Es ,uy agradable el pibe :)\n\n" << endl;
-
-                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
-                        system("pause");
-                        system("cls");
+                        trainer2.setNombre(nombre);
                         goto ReinicioMenu;
                     }
                 }
 
-                else{
+                if(opcionC[2] == '2'){
+                    if(opcionC[1] == '1'){
+                        cout << "El nombre del perfil 1 es: " << trainer1.getNombre() << "\n\nEs muy agradable el pibe :)\n\n" << endl;
+
+                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
+                        system("pause");
+                        puntitos();
+                        goto ReinicioMenu;
+                    }
+
+                    else{
+                        cout << "El nombre del perfil 1 es: " << trainer2.getNombre() << "/n/nEs muy agradable el pibe :)\n\n" << endl;
+
+                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
+                        system("pause");
+                        puntitos();
+                        goto ReinicioMenu;
+                    }
+                }
+
+                else if (opcionC[1] != '1' && opcionC[1] != '2' && opcionC[1] != '3'){
                     cout << "Opcion no valida, por favor intenta de nuevo" << endl;
                     Sleep(1500);
                     system("cls");
@@ -140,8 +176,12 @@ int main(){
                 }
             }
 
+            else if(opcionC[1] == '3'){
+                goto ReinicioMenu;
+            }
+
             else{
-                cout << "Por favor ingresa (1) o (2), ninguna otra opcion es valida" << endl;
+                cout << "Por favor ingresa (1), (2) o (3), ninguna otra opcion es valida" << endl;
                 Sleep(1500);
                 system("cls");
                 goto perfilnt2;
@@ -150,19 +190,17 @@ int main(){
 
         case '2':
             //Checar equipo
+            goto ReinicioMenu;
             break;
 
         case '3':
             //Checar pokimons
+            goto ReinicioMenu;
             break;
             
         case '4':
             cout << "Hasta la proxima, espero verte aqui de nuevo!!" << endl;
-            for(int i = 0; i < 10; i++){
-                Sleep(250);
-                printf(".");
-            }
-            system("cls");
+            puntitos();
             break;
     }
 
@@ -256,6 +294,8 @@ void crearPokemon()
         goto initError2;
     }
 
+    puntitos();
+
     //initError3
     initError3:
     cout << "Quieres ponerle nombre a tu " << listaPoke[numPoke-1] << "?\n" <<
@@ -333,4 +373,12 @@ void inicio()
     team.setNombre(x);
     system("cls");
     cout << "Perfecto, has completado tu perfil, revisa el menu para mas opciones\n";
+}
+
+void puntitos(){
+    for(int i = 0; i < 10; i++){
+        printf(".");
+        Sleep(250);
+    }
+    system("cls");
 }
