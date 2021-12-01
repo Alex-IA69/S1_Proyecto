@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				Bulbasaur N.001			  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Este Pokemon nace con una semilla en el lomo, que brota    |
+| con el paso del tiempo.	  					  |
+|									  |
+| Tipo: "Planta" "Veneno"						  |
+|									  |
+| Debilidad: | Fuego |-| Psiquico |-| Volador |-| Hielo |		  |
+|-------------------------------------------------------------------------|

@@ -16,18 +16,23 @@ class Pokemon
         //Setters y Getters
         void setPoki(std::string);
         void setNombre(std::string);
-        std::string getPoki();
-        
-        std::string getNombre();
+        void setMov();
 
+        std::string getPoki();
+        std::string getNombre();
         std::string getTipo();
+        Movimientos getMov1();
+        Movimientos getMov2();
 
         //Interacciones
-        bool pelear(std::string);
+        bool pelear(std::string, std::string);
+
+        void dibujar(int, std::string[]);
+        void descripcion(int, std::string[]);
 
     private:
         std::string poki, nombre;
-        Movimientos movimiento1, movimiento2;
+        Movimientos mov1, mov2;
 };
 
 #endif //POKEMON_H

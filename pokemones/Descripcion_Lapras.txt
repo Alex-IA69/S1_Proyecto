@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Lapras N.131	 	  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Este Pokemon posee una notable inteligencia y un corazon   |
+| de oro. Entona un canto melodioso mientras surca el mar. 		  |
+|									  |
+| Tipo: "Agua" "Hielo"	 						  |
+|									  |
+| Debilidad: | Planta |-| Eléctrico |-| Lucha |-| Roca |		  |
+|-------------------------------------------------------------------------|

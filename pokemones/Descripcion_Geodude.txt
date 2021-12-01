@@ -1,0 +1,11 @@
+|-------------------------------------------------------------------------|
+|				 Geodude N.074	  	  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Se suele encontrar en senderos de montaña y sitios 	  |
+| parecidos. Conviene andar con cuidado para no pisarlo sin querer y 	  |
+| provocar su enfado.  			  			  	  |
+|									  |
+| Tipo: "Roca" "Tierra" 						  |
+|									  |
+| Debilidad: | Acero |-| Lucha |-| Agua |-| Hielo |-| Planta |-| Tierra | |
+|-------------------------------------------------------------------------|

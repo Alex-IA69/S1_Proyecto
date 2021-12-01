@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Machop N.066	 	  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Es una masa de musculos y, pese a su pequeno tamano, tiene |
+| fuerza de sobra para levantar en brazos a 100 personas.		  |
+|									  |
+| Tipo: "Lucha"	 						 	  |
+|									  |
+| Debilidad: | Psíquico |-| Volador |-| Hada |				  |
+|-------------------------------------------------------------------------|

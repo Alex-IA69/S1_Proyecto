@@ -16,8 +16,12 @@ class Entrenador
         std::string getNombre();
         void setTeam1(Equipo);
         void setTeam2(Equipo);
+        Equipo getTeam1();
+        Equipo getTeam2();
         
-        //estoEsobjeto.mandarA(getNombre());
+        //Funciones
+        void editarNombre();
+        void mostrarEntrenador();
 
     private:
         std::string nombre;

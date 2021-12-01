@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Cubone N.104			  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Cuando llora al acordarse de su madre fallecida, su llanto |
+| resuena en el craneo que lleva en la cabeza.	  			  |
+|									  |
+| Tipo: "Tierra"							  |
+|									  |
+| Debilidad: | Agua |-| Planta |-| Hielo |			  	  |
+|-------------------------------------------------------------------------|

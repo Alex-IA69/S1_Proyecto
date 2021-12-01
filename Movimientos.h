@@ -7,9 +7,11 @@ class Movimientos
 {
     public:
         Movimientos();
+        std::string getMovimiento();
+        void setMov(std::string);
 
     private:
-        std::string movimiento1, movimiento2;
+        std::string movimiento;
 };
 
 #endif //MOVIMIENTOS_H

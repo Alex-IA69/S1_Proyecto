@@ -1,7 +1,12 @@
 #include <iostream>
 #include <string>
+#include <vector>
+
+#include <windows.h>
+#include <stdio.h>
 #include <cstdlib>
 #include <time.h>
+#include <fstream>
 
 #include "Pokemon.h"
 
@@ -10,12 +15,14 @@ Pokemon::Pokemon()
 {
     poki = "";
     nombre = "";
+    Movimientos mov1, mov2;
 };
 
 Pokemon::Pokemon(std::string _poki, std::string _nombre)
 {
     poki = _poki;
     nombre = _nombre;
+    Movimientos mov1, mov2;
 };
 
 //------------------------------------------Setters y Getters
@@ -28,6 +35,27 @@ void Pokemon::setPoki(std::string _poki)
 void Pokemon::setNombre(std::string _nombre)
 {
     nombre = _nombre;
+}
+
+void Pokemon::setMov()
+{
+    std::ifstream archivo;
+    srand(time(NULL));
+    
+    archivo.open("pokemones/Movimientos.txt", std::ios::in);
+    std::string auxiliar;
+    std::vector<std::string> movis;
+
+    while (archivo >> auxiliar)
+        movis.push_back(auxiliar);
+    
+    int n = movis.size();
+    int rand1 = rand() % n, rand2 = rand() % n;
+
+    mov1.setMov(movis[rand1]); 
+    mov2.setMov(movis[rand2]);
+    
+    archivo.close();
 }
 
 std::string Pokemon::getPoki()
@@ -61,8 +89,18 @@ std::string Pokemon::getTipo()
     else    std::cout << "No existe el pokimon en la db"  << std::endl;
 }
 
+Movimientos Pokemon::getMov1()
+{
+    return mov1;
+}
+
+Movimientos Pokemon::getMov2()
+{
+    return mov2;
+}
+
 //------------------------------------------Interacciones
-bool Pokemon::pelear(std::string tempTipo)
+bool Pokemon::pelear(std::string _dato1[], std::string _dato2[])
 {
     // Declaramos _X y _Y para sacar la cordenada de nuestra matriz y saber que pokemon ganara la pelea
     int _X, _Y, ataque, auxiliar;
@@ -145,4 +183,46 @@ bool Pokemon::pelear(std::string tempTipo)
         std::cout << "Fue una gran batalla muy cerrada, viendo el lado bueno es que conseguiste la victoria, sigue asi aventurero :D" << std::endl;
         return true;
     }
+}
+
+//----------------------------------------------------------------Dibujar pokemones en Ascii
+void Pokemon::dibujar(int opcion, std::string pokemones[]){
+    std::ifstream archivo;
+    std::string sprite;
+
+    opcion--;
+    archivo.open("pokemones/" + pokemones[opcion] + ".txt",std::ios::in);
+
+    if(archivo.fail()){
+        std::cout << "trite";
+        exit(1);
+    }
+
+    while(!archivo.eof()){
+        getline(archivo,sprite);
+        std::cout<<sprite<<std::endl;
+    }
+
+    archivo.close(); 
+}
+
+//----------------------------------------------------------------Descripcion de pokemones
+void Pokemon::descripcion(int opcion, std::string pokemones[]){
+    std::ifstream archivo;
+    std::string sprite;
+
+    opcion--;
+    archivo.open("pokemones/Descripcion_" + pokemones[opcion] + ".txt",std::ios::in);
+
+    if(archivo.fail()){
+        std::cout << "trite";
+        exit(1);
+    }
+
+    while(!archivo.eof()){
+        std::getline(archivo,sprite);
+        std::cout<<sprite<<std::endl;
+    }
+
+    archivo.close(); 
 }

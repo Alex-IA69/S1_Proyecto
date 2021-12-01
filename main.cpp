@@ -10,6 +10,7 @@
 #include "Pokemon.h"
 #include "Entrenador.h"
 #include "Equipo.h"
+#include "Movimientos.h"
 
 
 using namespace std;
@@ -20,181 +21,242 @@ void initMain();
 void crearPokemon();
 void inicio();
 void puntitos();
+bool verificarPlayer2();
 
 //--------------------------------------------------------------GLOBALES
 Entrenador trainer1, trainer2;
 Equipo team;
 Pokemon tempPoke;
+Movimientos tempMove;
+string pokemonConjunto1[3], pokemonConjunto2[3];
 
 //--------------------------------------------------------------MAIN
 int main(){
+    //Inicializa un perfil, 1 equipo y sus 3 pokemones
+    initMain();
     inicio();
-    //variables del switch
-    char opcionC[15];
 
+    trainer1.setTeam1(team);
+
+    //Variables Menu
     string nombre;
-    char opcion;    
-ReinicioMenu:
-    cout << "Que te gustaria realizar?\n" <<
-            "1) Checar perfil\n" <<
-            "2) Checar equipo\n" <<
-            "3) Checar pokemones\n" <<
-            "4) Salir\n";
+    char opcion, eq;
+    int opc;    
+    string pokemones[14] = {"Abra", "Bulbasaur", "Caterpie", "Cubone", "Ekans", "Gastly", "Geodude", "Lapras", "Machop", "Rattata", "Squirtle", "Voltorb", "Vulpix", "Zubat"};
+    bool ciclo = true;
+
+    ReinicioMenu:
+    cout << "Que te gustaria realizar?\n" << "1) Checar entrenador\n" << "2) Checar Pokemones\n" << "3) Pelear\n" << "4) Salir\n" << ">>> ";
+    
     try
     {
         cin >> opcion;
-        if (opcion != '1' && opcion != '2' && opcion != '3' && opcion != '4') throw std::invalid_argument("UTILIZA LOS NUMEROS DEL 1 AL 4 WEON CTM!!!");
+        if (opcion != '1' && opcion != '2' && opcion != '3' && opcion != '4') throw std::invalid_argument("Porfavor siga instrucciones");
     }
     catch (std::invalid_argument& x)
-    {	Menu:
-    	cerr<<x.what()<<endl;
-    	puntitos();
+    {	
+    	cerr << x.what() << endl;
         goto ReinicioMenu;
     }
 
-    puntitos();
-    switch(opcion){
-//---------------------------------------------------------Caso entrenador
+    //puntitos();
+    switch(opcion)
+    {
+        //---------------------------------------------------------Caso entrenador
         case '1':
-            perfilnt2:
-            cout << "Cual perfil te gustaria checar?\n" <<
-            "1) Perfil 1\n" <<
-            "2) Perfil 2\n" <<
-            "3) Regresar al menu\n";
-            cin>>opcionC[1];
-            puntitos();
-
-            if(trainer2.getNombre() == "" && opcionC[1] == '2'){
-            crear_perfil:
-                cout << "Opcion invalida ya que el perfil 2 esta vacio, te gustaria crear un segundo perfil? S/N" << endl;
-                cin>>opcionC[4];
-                try
+            casoEntrenador:
+            cout << "Cual entrenador te gustaria checar?\n" << "\t1) Entrenador 1\n" << "\t2) Entrenador 2\n" << "\t3) Regresar al menu\n" << ">>> ";
+            cin >> opcion;
+            if (opcion == '1')//Entrenador 1
+            {
+                Entrenador1:
+                cout << "Que quiere hacer?\n\t1) Editar entrenador\n\t2) Mostrar entrenador\n\t3) Regresar\n>>> ";
+                cin >> opcion;
+                if (opcion == '1')
                 {
-                    cin >> opcionC[4];
-                    Sleep(1000);
-                    if (opcionC[4] != 'S' && opcionC[4] != 'N' && opcionC[4] != 's' && opcionC[4] != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
-
-                    else{
-                        cout << "Cagando" << endl;
-                        puntitos();
+                    Entrenador1Edit:
+                    cout << "Que quiere editar?\n\t1) Nombre\n\t2) Equipo\n\t3) Regresar\n>>> ";
+                    cin >> opcion;      CrearPerfil2:
+                    if (opcion == '1')//Editar nombre
+                    {
+                        trainer1.editarNombre();
+                        goto Entrenador1Edit;
                     }
-                }
-                catch (std::invalid_argument& x)
-                {
-                    cerr << x.what() << endl;
-                    puntitos();
-                    goto crear_perfil;
-                }
-
-                if(opcionC[4] == 'S' || opcionC[4] == 's'){
-                    printf("Que nombre te gustaria ponerle a este perfil?: ");
-                    cin>>nombre;
-                    puntitos();
-                    trainer2.setNombre(nombre);
-                    inicio();
-                    trainer2.setTeam1(team);
-                }
-                if(opcionC[4] == 'N' || opcionC[4] == 'n'){
-                    puntitos();
-                    goto perfilnt2;
-                }
+                    else if (opcion == '2')//Editar equipo
+                    {
+                        Equipo1Edit:
+                        cout << "Que equipo desea modificar? 1 o 2?\n>>> ";
+                        cin >> eq;
+                        if (eq == '1' || eq == '2')
+                        {
+                            cout << "Para modificar un equipo, se reemplazan los 3 pokemones y se debe elegir un nuevo nombre. \nEl proceso no se puede interrumpir. Esta seguro? S/N\n>>> ";
+                            cin >> opcion;
+                            if(opcion == 'S' || opcion == 's')
+                            {
+                                system("cls");
+                                inicio();
+                                if (eq == '1')
+                                    trainer1.setTeam1(team);
+                                else
+                                    trainer1.setTeam2(team);
+                                goto Entrenador1Edit;
+                            }
+                            else
+                            {goto Equipo1Edit;}
+                        }else
+                        {goto Entrenador1Edit;}
+                    }else
+                    {goto Entrenador1;}
+                }  
+                else if (opcion == '2')//Mostrar entrenador
+                    {trainer1.mostrarEntrenador();  
+                    goto Entrenador1;}       
+                else
+                    goto casoEntrenador;
             }
-
-            else if(opcionC[1] == '1' || opcionC[1] == '2'){
-                perfil_ingreso1:
-                cout << "Que quiere hacer?\n" <<
-                "1) Editar nombre\n" <<
-                "2) Mostrar perfil\n" <<
-                "3) Volver atras\n";
-                cin>>opcionC[2];
-                puntitos();
-                
-                if(opcionC[2] == '3'){
-                    goto perfilnt2;
-                }
-
-                if(opcionC[2] == '1'){
-                    printf("Que nombre le vas a poner al perfil?: ");
-                    cin>>nombre;
-                    puntitos();
-                perfil1:
-                    cout << "Estas seguro que quieres ponerle: " << nombre << " al perfil " << opcionC[1] << "? S/N" << endl;
-                    try
+            else if (opcion == '2')//____________________________________________________________________________Entrenador 2
+            {
+                Entrenador2:
+                if (trainer2.getNombre() == "")//No tiene datos previos
+                {
+                    cout << "Parece que Entrenador 2 esta vacio, te gustaria crear Entrenador 2? S/N\n" << ">>> ";
+                    cin >> opcion;
+                    if (opcion == 'S' || opcion == 's')
                     {
-                        cin >> opcionC[3];
-                        Sleep(1000);
-                        if (opcionC[3] != 'S' && opcionC[3] != 'N' && opcionC[3] != 's' && opcionC[3] != 'n')       throw std::invalid_argument("ingresa solo (S) o (N)");
-
-                        else{
-                            cout << "guardando nombre" << endl;
-                            puntitos();
-                        }
-                    }
-                    catch (std::invalid_argument& x)
-                    {
-                        cerr << x.what() << endl;
-                        puntitos();
-                        goto perfil1;
-                    }
-
-                    if(opcionC[1] == '1'){
-                        trainer1.setNombre(nombre);
-                        goto ReinicioMenu;
-                    }
-
-                    else{
+                        cout << "Que nombre te gustaria ponerle a este entrenador?" << "\n>>> ";
+                        cin >> nombre;
                         trainer2.setNombre(nombre);
-                        goto ReinicioMenu;
-                    }
+                        inicio();
+                        trainer2.setTeam1(team);
+                        goto Entrenador2;
+                    }else
+                        goto Entrenador2;
                 }
-
-                if(opcionC[2] == '2'){
-                    if(opcionC[1] == '1'){
-                        cout << "El nombre del perfil 1 es: " << trainer1.getNombre() << "\n\nEs muy agradable el pibe :)\n\n" << endl;
-
-                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
-                        system("pause");
-                        puntitos();
-                        goto ReinicioMenu;
+                else                          //Ya tiene datos previos
+                {
+                    cout << "Que quiere hacer?\n\t1) Editar entrenador\n\t2) Mostrar entrenador\n\t3) Regresar\n>>> ";
+                    cin >> opcion;
+                    if (opcion == '1')
+                    {
+                        Entrenador2Edit:
+                        cout << "Que quiere editar?\n\t1) Nombre\n\t2) Equipo\n\t3) Regresar\n>>> ";
+                        cin >> opcion;
+                        if (opcion == '1')//Editar nombre
+                        {
+                            trainer2.editarNombre();
+                            goto Entrenador2Edit;
+                        }
+                        else if (opcion == '2')//Editar equipo
+                        {
+                            Equipo2Edit:
+                            cout << "Que equipo desea modificar? 1 o 2?\n>>> ";
+                            cin >> eq;
+                            if (eq == '1' || eq == '2')
+                            {
+                                cout << "Para modificar un equipo, se reemplazan los 3 pokemones y se debe elegir un nuevo nombre. \nEl proceso no se puede interrumpir. Esta seguro? S/N\n>>> ";
+                                cin >> opcion;
+                                if(opcion == 'S' || opcion == 's')
+                                {
+                                    system("cls");
+                                    inicio();
+                                    if (eq == '1')
+                                        trainer2.setTeam1(team);
+                                    else
+                                        trainer2.setTeam2(team);
+                                    goto Entrenador2Edit;
+                                }
+                                else
+                                {goto Equipo2Edit;}
+                            }else
+                            {goto Entrenador2Edit;}
+                        }else
+                        {goto Entrenador2;}
                     }
-
-                    else{
-                        cout << "El nombre del perfil 1 es: " << trainer2.getNombre() << "/n/nEs muy agradable el pibe :)\n\n" << endl;
-
-                        cout << "Para regresar al menu principal precione cualquier tecla" << endl;
-                        system("pause");
-                        puntitos();
-                        goto ReinicioMenu;
-                    }
-                }
-
-                else if (opcionC[1] != '1' && opcionC[1] != '2' && opcionC[1] != '3'){
-                    cout << "Opcion no valida, por favor intenta de nuevo" << endl;
-                    Sleep(1500);
-                    system("cls");
-                    goto perfil_ingreso1;
+                    else if (opcion == '2')//Mostrar entrenador
+                        {trainer2.mostrarEntrenador();
+                        goto Entrenador2Edit;}
+                    else
+                        goto casoEntrenador;
                 }
             }
-
-            else if(opcionC[1] == '3'){
+            else
                 goto ReinicioMenu;
+            break;
+        //---------------------------------------------------------Caso Pokemones (Pokedex)
+        case '2':
+            while(ciclo){
+                cout << "Bienvenido a la pokedex!! de que pokemon te gustaria saber su descripcion?\n";
+                for(int i = 0; i < 14; i++)
+                    cout << i + 1 << ") " << pokemones[i] << endl;
+
+                cout << "15) Salir de pokedex\n" << ">>> ";
+                cin >> opc;
+
+                if(opc == 15)
+                    ciclo = false;
+                else{
+                    tempPoke.dibujar(opc, pokemones);
+                    printf("\n");
+                    tempPoke.descripcion(opc, pokemones);
+                    system("pause");
+                    puntitos();
+                }
+            }
+            goto ReinicioMenu;
+            break;
+        //---------------------------------------------------------Caso Pelear
+        case '3':
+        Pelea:
+            if(verificarPlayer2())
+            {
+                pokemonConjunto1[1] = trainer1.getTeam1().getPokemon1();
+                pokemonConjunto1[2] = trainer1.getTeam1().getPokemon2();
+                pokemonConjunto1[3] = trainer1.getTeam1().getPokemon3();
+
+                pokemonConjunto2[1] = trainer2.getTeam1().getPokemon1();
+                pokemonConjunto2[2] = trainer2.getTeam1().getPokemon2();
+                pokemonConjunto2[3] = trainer2.getTeam1().getPokemon3();
+
+                for(int i = 1; i <= 3; i++)
+                {
+                    tempPoke.
+                    /*switch(i)
+                    {
+                        case 1:
+                            break;
+
+                        case 2:
+                            break;
+
+                        case 3:
+                            break;
+
+                        default:
+                            break;
+                    }*/
+                }
             }
 
             else{
-                cout << "Por favor ingresa (1), (2) o (3), ninguna otra opcion es valida" << endl;
-                Sleep(1500);
-                system("cls");
-                goto perfilnt2;
+                cout << "Error, el perfil numreo 2 tiene que estar creado para poder pelear, te gustaria crearlo? S/N\n" << ">>>";
+                cin >> opcion;
+                if (opcion == 'S' || opcion == 's')
+                {
+                    cout << "Te estamos redirigiendo a C:/Pokemon/main.cpp/Menu/Editar perfil/Perfil 2/Crear";
+                    puntitos();
+                    opcion = '1';
+                    goto CrearPerfil2;
+                }else if(opcion == 'N' || opcion == 'n'){
+                    cout << "Regresando.";
+                    puntitos();
+                    goto Pelea;
+                }
+                else{
+                    cout << "por favor ingresa una S o N";
+                    puntitos();
+                    goto Pelea;
+                }
             }
-            break;
-
-        case '2':
-            //Checar equipo
-            goto ReinicioMenu;
-            break;
-
-        case '3':
-            //Checar pokimons
             goto ReinicioMenu;
             break;
             
@@ -283,7 +345,7 @@ void crearPokemon()
     try
     {
         cin >> numPoke;
-        Sleep(500);
+        //Sleep(500);
         if (numPoke <= 14 && numPoke >= 1) cout << "";
         else throw std::invalid_argument("Invalid Number");
     }
@@ -294,12 +356,11 @@ void crearPokemon()
         goto initError2;
     }
 
-    puntitos();
-
+    //puntitos();
+    tempPokemon = listaPoke[numPoke-1];
     //initError3
     initError3:
-    cout << "Quieres ponerle nombre a tu " << listaPoke[numPoke-1] << "?\n" <<
-            "S/N\n" << ">>> ";
+    cout << "Quieres ponerle nombre al " << listaPoke[numPoke-1] << "?\n" << "S/N\n" << ">>> ";
     try
     {
         cin >> tempAns;
@@ -322,7 +383,7 @@ void crearPokemon()
         
         Sleep(1000);
         initError5:
-        cout << "Quieres ponerle " << tempNombre << " a tu " << listaPoke[numPoke-1] << "?\n" <<
+        cout << "Quieres ponerle " << tempNombre << " a " << listaPoke[numPoke-1] << "?\n" <<
                 "S/N\n" << ">>> ";
         try
         {
@@ -343,14 +404,17 @@ void crearPokemon()
         }
         
         tempPoke.setPoki(tempPokemon);
-        tempPoke.setNombre(tempNombre);        
+        tempPoke.setNombre(tempNombre);
     }
     else
     {
         tempPoke.setPoki(tempPokemon);
-        tempPoke.setNombre(tempNombre);
+        tempPoke.setNombre(tempPokemon);
     }
-    cout << "Tu pokemon ha sido integrado a su equipo con exito!" << endl;
+    tempPoke.setMov();
+    cout << tempPoke.getMov1().getMovimiento() << endl;
+    cout << tempPoke.getMov2().getMovimiento() << endl;
+    cout << "El pokemon ha sido integrado a su equipo con exito!" << endl;
     
 }
 
@@ -358,27 +422,35 @@ void crearPokemon()
 void inicio()
 {
     string x;
-    initMain();
     crearPokemon();
     team.setPokemon1(tempPoke);
-    cout << "Ahora hay que agregar tus otros dos pokemones\n";
+    cout << "Ahora hay que agregar los otros dos pokemones\n";
     crearPokemon();
     team.setPokemon2(tempPoke);
-    cout << "Y el ultimo de tu equipo...\n";
+    cout << "Y el ultimo del equipo...\n";
     crearPokemon();
     team.setPokemon3(tempPoke);
-    cout << "Para terminar la preparacion... Como quieres llamar a tu equipo?\n" <<
+    cout << "Para terminar la preparacion... Como quieres llamar al equipo?\n" <<
             ">>> ";
     cin >> x;
     team.setNombre(x);
     system("cls");
-    cout << "Perfecto, has completado tu perfil, revisa el menu para mas opciones\n";
+    cout << "Perfecto, has completado el proceso, revisa el menu para mas opciones\n";
 }
 
+//--------------------------------------Puntos
 void puntitos(){
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 5; i++){
         printf(".");
         Sleep(250);
     }
     system("cls");
+}
+
+bool verificarPlayer2(){
+    if(trainer2.getNombre() == "")
+        return false;   //false = esta vacio y no hay entrenador 1
+
+    else    
+        return true;    //Si estan llenos los campos de entrenador
 }
