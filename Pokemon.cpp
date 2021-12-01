@@ -10,6 +10,11 @@
 
 #include "Pokemon.h"
 
+Pokemon auxiliar;
+
+void dibujoAtaque1(std::string);
+void dibujoAtaque2(std::string);
+
 //------------------------------------------Constructores
 Pokemon::Pokemon()
 {
@@ -100,14 +105,10 @@ Movimientos Pokemon::getMov2()
 }
 
 //------------------------------------------Interacciones
-bool Pokemon::pelear(std::string _dato1[], std::string _dato2[])
+int Pokemon::pelear(std::string dato1[], std::string dato2[])
 {
     // Declaramos _X y _Y para sacar la cordenada de nuestra matriz y saber que pokemon ganara la pelea
-    int _X, _Y, ataque, auxiliar;
-
-    // dato1 y dato2 seran comparados para darle valor a _X y _X
-    std::string dato1 = getTipo(),
-                dato2 = tempTipo;
+    int _X, _Y, ataque, auxiliar, contador = 0;
 
     // Esta matriz es un arreglo donde guardamos los tipos de pokemones que usaremos y saber si se genera un ataque (nulo, normal o critico)
     std::string debilidades[15][15] = {
@@ -127,61 +128,100 @@ bool Pokemon::pelear(std::string _dato1[], std::string _dato2[])
     {"electrico", "1", "2", "1", "2", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1"},
     {"toxina",    "1", "1", "2", "1", "1", "2", "1", "0", "1", "0", "1", "0", "1", "1"}};
     
-    //En este for anidado estamos buscando la cordenada de _Y, que es donde esta el "dato1" osea, si dato1 es = a alguno de los tipos de pokemones de la matris _Y = i
-    for(int i = 0; i <= 14; i++)
+    for(int Z = 1; Z <= 3; Z++)
     {
-        for(int j = 0; j <= 14; j++)
+        //En este for anidado estamos buscando la cordenada de _Y, que es donde esta el "dato1" osea, si dato1 es = a alguno de los tipos de pokemones de la matris _Y = i
+        for(int i = 0; i <= 14; i++)
         {
-            if(dato1 == debilidades[i][j].c_str())
+            for(int j = 0; j <= 14; j++)
             {
-                _Y = i;
+                if(dato2[Z] == debilidades[i][j].c_str())
+                {
+                    _Y = i;
+                }
             }
         }
-    }
-    
-    //En este for anidado estamos buscando la cordenada de _X, que es donde esta el "dato2" osea, si dato2 es = a alguno de los tipos de pokemones de la matris _X = j
-    for(int i = 0; i <= 14; i++)
-    {
-        for(int j = 0; j <= 14; j++)
+        
+        //En este for anidado estamos buscando la cordenada de _X, que es donde esta el "dato2" osea, si dato2 es = a alguno de los tipos de pokemones de la matris _X = j
+        for(int i = 0; i <= 14; i++)
         {
-            if(dato2 == debilidades[i][j].c_str())
+            for(int j = 0; j <= 14; j++)
             {
-                _X = j;
-                i = 15;
-                j = 15;
+                if(dato1[Z] == debilidades[i][j].c_str())
+                {
+                    _X = j;
+                    i = 15;
+                    j = 15;
+                }
             }
         }
-    }
-    
-    //Despues de que se encuentran las cordenadas de _X y _Y convertimos el caracter que se encuentre en la posicion (x, y) de la matriz a uno tipo entero
-    ataque = atoi(debilidades[_X][_Y].c_str());
-    
-    //Generamos un numero aleatorio del 0 al 1 para determinar quien gana si se usa un ataque tipo "normal"
-    srand(time(NULL));
-    auxiliar = rand() % 2;
-    
-    //Si el equivalente de la tabla del atacante contra el contrincante es = 2, el atacante gana
-    if(ataque == 2)
-    {
-        std::cout << "izzi" << std::endl;
-        return true;
-    }
-    //Si el equivalente de la tabla del atacante contra el contrincante es = 0, el atacante pierde
-    else if(ataque == 0)
-    {
-        std::cout << "GGnt" << std::endl;
-        return false;
-    }
-    //Si el resultado de la matriz es = 1, quiere decir que ambos tienen la misma provabilidad de ganar, por lo tanto al generar un numero random se determina al azar en ambos casos   
-    else if(auxiliar == 0)
-    {
-        std::cout << "Fue una gran batalla muy cerrada, pero lastimosamente fuiste derrotado, hay que seguir entrenando :(" << std::endl;
-        return false;
-    }
-    
-    else{
-        std::cout << "Fue una gran batalla muy cerrada, viendo el lado bueno es que conseguiste la victoria, sigue asi aventurero :D" << std::endl;
-        return true;
+
+        //-----Pintar escenario
+        dibujoAtaque2(dato2[Z + 3]);
+        dibujoAtaque1(dato1[Z + 3]);
+        
+        //Despues de que se encuentran las cordenadas de _X y _Y convertimos el caracter que se encuentre en la posicion (x, y) de la matriz a uno tipo entero
+        ataque = atoi(debilidades[_X][_Y].c_str());
+        
+        //Generamos un numero aleatorio del 0 al 1 para determinar quien gana si se usa un ataque tipo "normal"
+        srand(time(NULL));
+        auxiliar = rand() % 2;
+        
+        //Si el equivalente de la tabla del atacante contra el contrincante es = 2, el atacante gana
+        if(ataque == 2)
+        {
+            std::cout << "izzi" << std::endl;
+            contador++;
+            //return true;
+        }
+        //Si el equivalente de la tabla del atacante contra el contrincante es = 0, el atacante pierde
+        else if(ataque == 0)
+        {
+            std::cout << "GGnt" << std::endl;
+            //return false;
+        }
+        //Si el resultado de la matriz es = 1, quiere decir que ambos tienen la misma provabilidad de ganar, por lo tanto al generar un numero random se determina al azar en ambos casos   
+        else if(auxiliar == 0)
+        {
+            std::cout << "Fue una gran batalla muy cerrada, pero lastimosamente fuiste derrotado, hay que seguir entrenando :(" << std::endl;
+            //return false;
+        }
+        
+        else{
+            std::cout << "Fue una gran batalla muy cerrada, viendo el lado bueno es que conseguiste la victoria, sigue asi aventurero :D" << std::endl;
+            contador++;
+            //return true;
+        }
+
+        system("pause");
+        if(Z == 3)
+        {
+            switch(contador)
+            {
+            case 0:
+                std::cout << "Tuviste una derrota aplastante con " << contador << " victorias, deverias practicar :(" << std::endl;
+                system("pause");
+                break;
+
+            case 1:
+                std::cout << "Fueron combates vastante parejos, lastima que solo tuviste  " << contador << " victoria, sigue entrenadno y mejoraras mucho :)" << std::endl;
+                system("pause");
+                break;
+
+            case 2:
+                std::cout << "Estuviste a nada de destrosar a tu rival, ganaste con" << contador << " victorias, bien hecho!!!" << std::endl;
+                system("pause");
+                break;
+
+            case 3:
+                std::cout << "DAAM!! eso fue brutal!!, " << contador << " victorias seguidas!!!, cada dia mejoras mas!!" << std::endl;
+                system("pause");
+                break;
+            
+            default:
+                break;
+            }
+        }
     }
 }
 
@@ -221,6 +261,48 @@ void Pokemon::descripcion(int opcion, std::string pokemones[]){
 
     while(!archivo.eof()){
         std::getline(archivo,sprite);
+        std::cout<<sprite<<std::endl;
+    }
+
+    archivo.close(); 
+}
+
+//--------------------------------------------------------Dibujar peleas-----------------------------------//
+
+//----------------------------------------------------------------Dibujar Ataque
+void dibujoAtaque1(std::string pokemones){
+    std::ifstream archivo;
+    std::string sprite;
+
+    archivo.open("pokemones/Pelea/Pelea1_" + pokemones + ".txt",std::ios::in);
+
+    if(archivo.fail()){
+        std::cout << "trite";
+        exit(1);
+    }
+
+    while(!archivo.eof()){
+        getline(archivo,sprite);
+        std::cout<<sprite<<std::endl;
+    }
+
+    archivo.close(); 
+}
+
+//----------------------------------------------------------------Dibujar Ataque 2
+void dibujoAtaque2(std::string pokemones){
+    std::ifstream archivo;
+    std::string sprite;
+
+    archivo.open("pokemones/Pelea/Pelea2_" + pokemones + ".txt",std::ios::in);
+
+    if(archivo.fail()){
+        std::cout << "trite";
+        exit(1);
+    }
+
+    while(!archivo.eof()){
+        getline(archivo,sprite);
         std::cout<<sprite<<std::endl;
     }
 

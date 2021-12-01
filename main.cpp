@@ -22,13 +22,15 @@ void crearPokemon();
 void inicio();
 void puntitos();
 bool verificarPlayer2();
+void prepararEquipo(char);
 
 //--------------------------------------------------------------GLOBALES
 Entrenador trainer1, trainer2;
 Equipo team;
 Pokemon tempPoke;
 Movimientos tempMove;
-string pokemonConjunto1[3], pokemonConjunto2[3];
+string pokemonConjunto1[6], pokemonConjunto2[6];
+int victorias = 0;
 
 //--------------------------------------------------------------MAIN
 int main(){
@@ -42,7 +44,7 @@ int main(){
     string nombre;
     char opcion, eq;
     int opc;    
-    string pokemones[14] = {"Abra", "Bulbasaur", "Caterpie", "Cubone", "Ekans", "Gastly", "Geodude", "Lapras", "Machop", "Rattata", "Squirtle", "Voltorb", "Vulpix", "Zubat"};
+    string pokemones[14] = {"Abra", "Bulbasaur", "Caterpie", "Cubone", "Ekans", "Ghastly", "Geodude", "Lapras", "Machop", "Rattata", "Squirtle", "Voltorb", "Vulpix", "Zubat"};
     bool ciclo = true;
 
     ReinicioMenu:
@@ -76,9 +78,10 @@ int main(){
                 {
                     Entrenador1Edit:
                     cout << "Que quiere editar?\n\t1) Nombre\n\t2) Equipo\n\t3) Regresar\n>>> ";
-                    cin >> opcion;      CrearPerfil2:
+                    cin >> opcion;      
                     if (opcion == '1')//Editar nombre
                     {
+                        CrearPerfil2:
                         trainer1.editarNombre();
                         goto Entrenador1Edit;
                     }
@@ -99,7 +102,7 @@ int main(){
                                     trainer1.setTeam1(team);
                                 else
                                     trainer1.setTeam2(team);
-                                goto Entrenador1Edit;
+                                goto ReinicioMenu;
                             }
                             else
                             {goto Equipo1Edit;}
@@ -209,53 +212,31 @@ int main(){
         Pelea:
             if(verificarPlayer2())
             {
-                pokemonConjunto1[1] = trainer1.getTeam1().getPokemon1();
-                pokemonConjunto1[2] = trainer1.getTeam1().getPokemon2();
-                pokemonConjunto1[3] = trainer1.getTeam1().getPokemon3();
-
-                pokemonConjunto2[1] = trainer2.getTeam1().getPokemon1();
-                pokemonConjunto2[2] = trainer2.getTeam1().getPokemon2();
-                pokemonConjunto2[3] = trainer2.getTeam1().getPokemon3();
-
-                for(int i = 1; i <= 3; i++)
+                cout << "Antes de pelear necesitas seleccionar un equipo:\n1) Equipo 1\n2) Equipo 2\n" << ">>>";
+                cin >> opcion;
+                switch(opcion)
                 {
-                    tempPoke.
-                    /*switch(i)
-                    {
-                        case 1:
-                            break;
+                case '1':
+                    prepararEquipo(opcion);
+                    tempPoke.pelear(pokemonConjunto1, pokemonConjunto2);
+                    break;
 
-                        case 2:
-                            break;
-
-                        case 3:
-                            break;
-
-                        default:
-                            break;
-                    }*/
+                case '2':
+                    prepararEquipo(opcion);
+                    break;
+                
+                default:
+                    cout << "Utiliza solo las opciones de 1 o 2" << ".";
+                    puntitos();
+                    goto Pelea;
+                    break;
                 }
             }
 
             else{
-                cout << "Error, el perfil numreo 2 tiene que estar creado para poder pelear, te gustaria crearlo? S/N\n" << ">>>";
-                cin >> opcion;
-                if (opcion == 'S' || opcion == 's')
-                {
-                    cout << "Te estamos redirigiendo a C:/Pokemon/main.cpp/Menu/Editar perfil/Perfil 2/Crear";
-                    puntitos();
-                    opcion = '1';
-                    goto CrearPerfil2;
-                }else if(opcion == 'N' || opcion == 'n'){
-                    cout << "Regresando.";
-                    puntitos();
-                    goto Pelea;
-                }
-                else{
-                    cout << "por favor ingresa una S o N";
-                    puntitos();
-                    goto Pelea;
-                }
+                cout << "Error, el perfil numreo 2 tiene que estar creado para poder pelear, volviendo al menu de inicio" << ">>>";
+                puntitos();
+                goto ReinicioMenu;
             }
             goto ReinicioMenu;
             break;
@@ -453,4 +434,49 @@ bool verificarPlayer2(){
 
     else    
         return true;    //Si estan llenos los campos de entrenador
+}
+
+void prepararEquipo(char opc)
+{
+    if(opc == '1')
+    {
+        //Elementos de los pokemones------------------------------------------//
+        pokemonConjunto1[1] = trainer1.getTeam1().getPokemon1().getTipo();
+        pokemonConjunto1[2] = trainer1.getTeam1().getPokemon2().getTipo();
+        pokemonConjunto1[3] = trainer1.getTeam1().getPokemon3().getTipo();
+
+        pokemonConjunto2[1] = trainer2.getTeam1().getPokemon1().getTipo();
+        pokemonConjunto2[2] = trainer2.getTeam1().getPokemon2().getTipo();
+        pokemonConjunto2[3] = trainer2.getTeam1().getPokemon3().getTipo();
+
+        //Tipo de pokemon------------------------------------------------------//
+        pokemonConjunto1[4] = trainer1.getTeam1().getPokemon1().getPoki();
+        pokemonConjunto1[5] = trainer1.getTeam1().getPokemon2().getPoki();
+        pokemonConjunto1[6] = trainer1.getTeam1().getPokemon3().getPoki();
+
+        pokemonConjunto2[4] = trainer2.getTeam1().getPokemon1().getPoki();
+        pokemonConjunto2[5] = trainer2.getTeam1().getPokemon2().getPoki();
+        pokemonConjunto2[6] = trainer2.getTeam1().getPokemon3().getPoki();
+    }
+
+    else
+    {
+        //Elementos de los pokemones------------------------------------------//
+        pokemonConjunto1[1] = trainer1.getTeam2().getPokemon1().getTipo();
+        pokemonConjunto1[2] = trainer1.getTeam2().getPokemon2().getTipo();
+        pokemonConjunto1[3] = trainer1.getTeam2().getPokemon3().getTipo();
+
+        pokemonConjunto2[1] = trainer2.getTeam2().getPokemon1().getTipo();
+        pokemonConjunto2[2] = trainer2.getTeam2().getPokemon2().getTipo();
+        pokemonConjunto2[3] = trainer2.getTeam2().getPokemon3().getTipo();
+
+        //Tipo de pokemon------------------------------------------------------//
+        pokemonConjunto1[4] = trainer1.getTeam2().getPokemon1().getPoki();
+        pokemonConjunto1[5] = trainer1.getTeam2().getPokemon2().getPoki();
+        pokemonConjunto1[6] = trainer1.getTeam2().getPokemon3().getPoki();
+
+        pokemonConjunto2[4] = trainer2.getTeam2().getPokemon1().getPoki();
+        pokemonConjunto2[5] = trainer2.getTeam2().getPokemon2().getPoki();
+        pokemonConjunto2[6] = trainer2.getTeam2().getPokemon3().getPoki();
+    }
 }

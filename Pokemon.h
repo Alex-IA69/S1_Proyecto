@@ -25,7 +25,7 @@ class Pokemon
         Movimientos getMov2();
 
         //Interacciones
-        bool pelear(std::string, std::string);
+        int pelear(std::string[], std::string[]);
 
         void dibujar(int, std::string[]);
         void descripcion(int, std::string[]);
