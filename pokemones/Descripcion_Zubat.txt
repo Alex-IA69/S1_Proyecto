@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Zubat N.041 	  	  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Emite ondas ultrasonicas por la boca para escrutar el 	  |
+| entorno, lo que le permite volar con pericia por cuevas angostas.	  |
+|									  |
+| Tipo: "Veneno" "Volador"	 					  |
+|									  |
+| Debilidad: | Psiquico |-| Electrico |-| Hielo |-| Roca |		  |
+|-------------------------------------------------------------------------|

@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Caterpie N.010			  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Para protegerse, despide un hedor horrible por las antenas |
+| con el que repele a sus enemigos.	  				  |
+|									  |
+| Tipo: "Bicho"							  	  |
+|									  |
+| Debilidad: | Fuego |-| Volador |-| Roca |			  	  |
+|-------------------------------------------------------------------------|

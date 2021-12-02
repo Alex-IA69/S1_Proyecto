@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Gastly N.092		  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: Nacio a partir de gases venenosos que asfixiarian a 	  |
+| cualquiera que se viera envuelto en ellos.	  			  |
+|									  |
+| Tipo: "Fantasma" "Veneno" 						  |
+|									  |
+| Debilidad: | Fantasma |-| Siniestro |-| Psiquico |-| Tierra |	  	  |
+|-------------------------------------------------------------------------|

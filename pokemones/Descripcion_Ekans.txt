@@ -1,0 +1,10 @@
+|-------------------------------------------------------------------------|
+|				 Ekans N.023		  	  	  |
+|-------------------------------------------------------------------------|
+| Descripcion: La longitud de este Pokemon aumenta con el tiempo. Por la  |
+| noche, se enrosca en las ramas de los arboles para descansar.	  	  |
+|									  |
+| Tipo: "Veneno"							  |
+|									  |
+| Debilidad: | Psiquico |-| Tierra |		  	  		  |
+|-------------------------------------------------------------------------|
