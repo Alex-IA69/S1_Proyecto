@@ -14,19 +14,12 @@ class Equipo
         //Setters y Getters
         void setNombre(std::string);
         std::string getNombre();
-        void setPokemon1(Pokemon);
-        Pokemon getPokemon1();
-        void setPokemon2(Pokemon);
-        Pokemon getPokemon2();
-        void setPokemon3(Pokemon); 
-        Pokemon getPokemon3();       
-        
-        //Interacciones
-        std::string getRandPokeType();
+        void setPokemon(Pokemon, int);
+        Pokemon getPokemon(int);    
 
     private:
         std::string nombre;
-        Pokemon poke1, poke2, poke3;
+        Pokemon poke[3];
 };
 
 #endif //EQUIPO_H

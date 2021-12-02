@@ -1,8 +1,6 @@
 #ifndef POKEMON_H
 #define POKEMON_H
 
-#include "Movimientos.h"
-
 #include <iostream>
 #include <string>
 
@@ -17,22 +15,21 @@ class Pokemon
         void setPoki(std::string);
         void setNombre(std::string);
         void setMov();
+        void setTipo();
 
         std::string getPoki();
         std::string getNombre();
         std::string getTipo();
-        Movimientos getMov1();
-        Movimientos getMov2();
-
+        std::string getMov(int);
         //Interacciones
-        int pelear(std::string[], std::string[]);
+        int pelear(Pokemon);
 
         void dibujar(int, std::string[]);
         void descripcion(int, std::string[]);
 
     private:
-        std::string poki, nombre;
-        Movimientos mov1, mov2;
+        std::string poki, nombre, tipo;
+        std::string mov[2];
 };
 
 #endif //POKEMON_H

@@ -8,8 +8,8 @@
 //------------------------------------------Constructores
 Equipo::Equipo()
 {
-    nombre = "";
-    Pokemon poke1(), poke2(), poke3();
+    nombre = "3quipoX002";
+    Pokemon poke[3];
 };
 
 
@@ -24,59 +24,12 @@ std::string Equipo::getNombre()
     return nombre;
 }
 
-void Equipo::setPokemon1(Pokemon _pok)
+void Equipo::setPokemon(Pokemon _pok, int pos)
 {
-    poke1.setPoki(_pok.getPoki());
-    poke1.setNombre(_pok.getNombre());
+    poke[pos] = _pok;
 }
 
-void Equipo::setPokemon2(Pokemon _pok)
+Pokemon Equipo::getPokemon(int pos)
 {
-    poke2.setPoki(_pok.getPoki());
-    poke2.setNombre(_pok.getNombre());
-}
-
-void Equipo::setPokemon3(Pokemon _pok)
-{
-    poke3.setPoki(_pok.getPoki());
-    poke3.setNombre(_pok.getNombre());
-}
-
-Pokemon Equipo::getPokemon1()
-{
-    return poke1;
-}
-
-Pokemon Equipo::getPokemon2()
-{
-    return poke2;
-}
-
-Pokemon Equipo::getPokemon3()
-{
-    return poke3;
-}
-
-//------------------------------------------Interacciones
-std::string Equipo::getRandPokeType()
-{
-    srand(time(NULL));
-    int auxiliar = rand() % 3;
-    switch (auxiliar)
-    {
-        case 0:
-            return poke1.getTipo();
-            break;
-        case 1:
-            return poke2.getTipo();
-            break;
-        case 2:
-            return poke3.getTipo();
-            break;
-
-        default:
-            std::cout << "Equipo:getRandPokeType:Error";
-            exit(EXIT_FAILURE);
-            break;
-    }
+    return poke[pos];
 }

@@ -14,10 +14,8 @@ class Entrenador
         //Setters y Getters
         void setNombre(std::string);
         std::string getNombre();
-        void setTeam1(Equipo);
-        void setTeam2(Equipo);
-        Equipo getTeam1();
-        Equipo getTeam2();
+        void setTeam(Equipo, int);
+        Equipo getTeam(int);
         
         //Funciones
         void editarNombre();
@@ -25,7 +23,7 @@ class Entrenador
 
     private:
         std::string nombre;
-        Equipo team1, team2;
+        Equipo team[2];
 };
 
 #endif //ENTRENADOR_H

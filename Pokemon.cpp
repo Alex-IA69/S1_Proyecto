@@ -9,6 +9,7 @@
 #include <fstream>
 
 #include "Pokemon.h"
+#include "Entrenador.h"
 
 Pokemon auxiliar;
 
@@ -18,16 +19,18 @@ void dibujoAtaque2(std::string);
 //------------------------------------------Constructores
 Pokemon::Pokemon()
 {
-    poki = "";
-    nombre = "";
-    Movimientos mov1, mov2;
+    poki = "Rattata";
+    nombre = "Rattata";
+    setTipo();
+    setMov();
 };
 
 Pokemon::Pokemon(std::string _poki, std::string _nombre)
 {
     poki = _poki;
     nombre = _nombre;
-    Movimientos mov1, mov2;
+    setTipo();
+    setMov();
 };
 
 //------------------------------------------Setters y Getters
@@ -35,6 +38,8 @@ Pokemon::Pokemon(std::string _poki, std::string _nombre)
 void Pokemon::setPoki(std::string _poki)
 {
     poki = _poki;
+    setTipo();
+    setMov();
 }
 
 void Pokemon::setNombre(std::string _nombre)
@@ -57,10 +62,28 @@ void Pokemon::setMov()
     int n = movis.size();
     int rand1 = rand() % n, rand2 = rand() % n;
 
-    mov1.setMov(movis[rand1]); 
-    mov2.setMov(movis[rand2]);
+    mov[0] = movis[rand1];
+    mov[1] = movis[rand2];
     
     archivo.close();
+}
+
+void Pokemon::setTipo()
+{
+    if(poki == "Rattata")           tipo = "normal";
+    else if(poki == "Zubat")        tipo = "volador";
+    else if(poki == "Machop")       tipo = "lucha";
+    else if(poki == "Squirtle")     tipo = "agua";
+    else if(poki == "Vulpix")       tipo = "fuego";
+    else if(poki == "Bulbasaur")    tipo = "planta";
+    else if(poki == "Lapras")       tipo = "hielo";
+    else if(poki == "Caterpie")     tipo = "insecto";
+    else if(poki == "Geodude")      tipo = "roca";
+    else if(poki == "Cubone")       tipo = "tierra";
+    else if(poki == "Ghastly")      tipo = "fantasma";
+    else if(poki == "Abra")         tipo = "psiquico";
+    else if(poki == "Voltorb")      tipo = "electrico";
+    else if(poki == "Ekans")        tipo = "toxina";
 }
 
 std::string Pokemon::getPoki()
@@ -73,42 +96,23 @@ std::string Pokemon::getNombre()
     return nombre;
 }
 
-//Set para saber de que tipo es tal pokemon
 std::string Pokemon::getTipo()
 {
-    if(poki == "Rattata")           return "normal";
-    else if(poki == "Zubat")        return "volador";
-    else if(poki == "Machop")       return "lucha";
-    else if(poki == "Squirtle")     return "agua";
-    else if(poki == "Vulpix")       return "fuego";
-    else if(poki == "Bulbasaur")    return "planta";
-    else if(poki == "Lapras")       return "hielo";
-    else if(poki == "Caterpie")     return "insecto";
-    else if(poki == "Geodude")      return "roca";
-    else if(poki == "Cubone")       return "tierra";
-    else if(poki == "Ghastly")      return "fantasma";
-    else if(poki == "Abra")         return "psiquico";
-    else if(poki == "Voltorb")      return "electrico";
-    else if(poki == "Ekans")        return "toxina";
-
-    else    std::cout << "No existe el pokimon en la db"  << std::endl;
+    return tipo;
 }
 
-Movimientos Pokemon::getMov1()
+std::string Pokemon::getMov(int pos)
 {
-    return mov1;
-}
-
-Movimientos Pokemon::getMov2()
-{
-    return mov2;
+    return mov[pos];
 }
 
 //------------------------------------------Interacciones
-int Pokemon::pelear(std::string dato1[], std::string dato2[])
+int Pokemon::pelear(Pokemon enemigo_)
 {
+    std::string dato1 = getTipo(), dato2 = enemigo_.getTipo(), ataque;
+
     // Declaramos _X y _Y para sacar la cordenada de nuestra matriz y saber que pokemon ganara la pelea
-    int _X, _Y, ataque, auxiliar, contador = 0;
+    int _X, _Y, auxiliar = 0, contador = 0;
 
     // Esta matriz es un arreglo donde guardamos los tipos de pokemones que usaremos y saber si se genera un ataque (nulo, normal o critico)
     std::string debilidades[15][15] = {
@@ -128,103 +132,60 @@ int Pokemon::pelear(std::string dato1[], std::string dato2[])
     {"electrico", "1", "2", "1", "2", "1", "1", "1", "1", "1", "0", "1", "1", "1", "1"},
     {"toxina",    "1", "1", "2", "1", "1", "2", "1", "0", "1", "0", "1", "0", "1", "1"}};
     
-    for(int Z = 1; Z <= 3; Z++)
+  
+    for(int y = 1; y <= 14; y++)
     {
-        //En este for anidado estamos buscando la cordenada de _Y, que es donde esta el "dato1" osea, si dato1 es = a alguno de los tipos de pokemones de la matris _Y = i
-        for(int i = 0; i <= 14; i++)
-        {
-            for(int j = 0; j <= 14; j++)
-            {
-                if(dato2[Z] == debilidades[i][j].c_str())
-                {
-                    _Y = i;
-                }
-            }
-        }
-        
-        //En este for anidado estamos buscando la cordenada de _X, que es donde esta el "dato2" osea, si dato2 es = a alguno de los tipos de pokemones de la matris _X = j
-        for(int i = 0; i <= 14; i++)
-        {
-            for(int j = 0; j <= 14; j++)
-            {
-                if(dato1[Z] == debilidades[i][j].c_str())
-                {
-                    _X = j;
-                    i = 15;
-                    j = 15;
-                }
-            }
-        }
+        if(debilidades[y][0] == dato1)
+            _Y = y;
+    }
+    for(int x = 1; x <= 14; x++)
+    {
+        if(debilidades[0][x] == dato2)
+            _X = x;
+    }
+    ataque = atoi(debilidades[_Y][_X].c_str());
+    
+    //-----Pintar escenario
+    //Enemigo
+    dibujoAtaque2(enemigo_.getPoki());
+    //Entrenador 1
+    dibujoAtaque1(getPoki());
+    std::cout << "(X: " << _X << " ,Y: " << _Y << ") --->" << ataque << std::endl;
 
-        //-----Pintar escenario
-        dibujoAtaque2(dato2[Z + 3]);
-        dibujoAtaque1(dato1[Z + 3]);
-        
-        //Despues de que se encuentran las cordenadas de _X y _Y convertimos el caracter que se encuentre en la posicion (x, y) de la matriz a uno tipo entero
-        ataque = atoi(debilidades[_X][_Y].c_str());
-        
-        //Generamos un numero aleatorio del 0 al 1 para determinar quien gana si se usa un ataque tipo "normal"
-        srand(time(NULL));
+    srand(time(NULL));
+
+    std::cout << "\n\n---------------------------------------------------------------------------------\n";
+    system("pause");
+    system("cls");
+
+    if(ataque == "1")
+    {
         auxiliar = rand() % 2;
-        
-        //Si el equivalente de la tabla del atacante contra el contrincante es = 2, el atacante gana
-        if(ataque == 2)
+        if (auxiliar == 1)
         {
-            std::cout << "izzi" << std::endl;
-            contador++;
-            //return true;
+            std::cout << "\nLa suerte hoy no estuvo de tu lado, el " << enemigo_.getPoki() << " enemigo supero a tu " << getPoki() << "!!\n";
+            return 0;
         }
-        //Si el equivalente de la tabla del atacante contra el contrincante es = 0, el atacante pierde
-        else if(ataque == 0)
+        else
         {
-            std::cout << "GGnt" << std::endl;
-            //return false;
+            std::cout << "\nBien hecho! El " << enemigo_.getPoki() << " contrincante fue vencido por tu " << getPoki() << "!!\n";
+            return 1;
         }
-        //Si el resultado de la matriz es = 1, quiere decir que ambos tienen la misma provabilidad de ganar, por lo tanto al generar un numero random se determina al azar en ambos casos   
-        else if(auxiliar == 0)
-        {
-            std::cout << "Fue una gran batalla muy cerrada, pero lastimosamente fuiste derrotado, hay que seguir entrenando :(" << std::endl;
-            //return false;
-        }
-        
-        else{
-            std::cout << "Fue una gran batalla muy cerrada, viendo el lado bueno es que conseguiste la victoria, sigue asi aventurero :D" << std::endl;
-            contador++;
-            //return true;
-        }
-
-        system("pause");
-        if(Z == 3)
-        {
-            switch(contador)
-            {
-            case 0:
-                std::cout << "Tuviste una derrota aplastante con " << contador << " victorias, deverias practicar :(" << std::endl;
-                system("pause");
-                break;
-
-            case 1:
-                std::cout << "Fueron combates vastante parejos, lastima que solo tuviste  " << contador << " victoria, sigue entrenadno y mejoraras mucho :)" << std::endl;
-                system("pause");
-                break;
-
-            case 2:
-                std::cout << "Estuviste a nada de destrosar a tu rival, ganaste con" << contador << " victorias, bien hecho!!!" << std::endl;
-                system("pause");
-                break;
-
-            case 3:
-                std::cout << "DAAM!! eso fue brutal!!, " << contador << " victorias seguidas!!!, cada dia mejoras mas!!" << std::endl;
-                system("pause");
-                break;
             
-            default:
-                break;
-            }
-        }
+    }
+    else if(ataque == "2")
+    {
+        std::cout << "\nLe sabes a los tipos, " << getTipo() << " siempre le gana a " << enemigo_.getTipo() << "!\n";
+        return 1;
+    }
+    else if(ataque == "0")
+    {
+        std::cout << "\nTienes que entrenar mas" << enemigo_.getTipo()  << " siempre le gana a " << getTipo() << "!!\n";
+        return 0;
     }
 }
 
+//--------------------------------------------------------Dibujar sprites-----------------------------------//
 //----------------------------------------------------------------Dibujar pokemones en Ascii
 void Pokemon::dibujar(int opcion, std::string pokemones[]){
     std::ifstream archivo;
@@ -246,7 +207,7 @@ void Pokemon::dibujar(int opcion, std::string pokemones[]){
     archivo.close(); 
 }
 
-//----------------------------------------------------------------Descripcion de pokemones
+//----------------------------------------------------------------Dibujar Descripcion de pokemones
 void Pokemon::descripcion(int opcion, std::string pokemones[]){
     std::ifstream archivo;
     std::string sprite;
@@ -268,7 +229,6 @@ void Pokemon::descripcion(int opcion, std::string pokemones[]){
 }
 
 //--------------------------------------------------------Dibujar peleas-----------------------------------//
-
 //----------------------------------------------------------------Dibujar Ataque
 void dibujoAtaque1(std::string pokemones){
     std::ifstream archivo;

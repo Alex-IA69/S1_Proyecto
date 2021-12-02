@@ -7,7 +7,7 @@
 
 //Constructores
 Entrenador::Entrenador(){
-    nombre = "";
+    nombre = "Juan";
 }
 
 Entrenador::Entrenador(std::string _nombre){
@@ -25,30 +25,15 @@ std::string Entrenador::getNombre()
     return nombre;
 }
 
-void Entrenador::setTeam1(Equipo _team)
+void Entrenador::setTeam(Equipo _team, int pos)
 {
-    team1.setNombre(_team.getNombre());
-    team1.setPokemon1(_team.getPokemon1());
-    team1.setPokemon2(_team.getPokemon2());
-    team1.setPokemon3(_team.getPokemon3());
+    team[pos] = _team;
 }
 
-void Entrenador::setTeam2(Equipo _team)
-{
-    team2.setNombre(_team.getNombre());
-    team2.setPokemon1(_team.getPokemon1());
-    team2.setPokemon2(_team.getPokemon2());
-    team2.setPokemon3(_team.getPokemon3());
-}
 
-Equipo Entrenador::getTeam1()
+Equipo Entrenador::getTeam(int pos)
 {
-    return team1;
-}
-
-Equipo Entrenador::getTeam2()
-{
-    return team2;
+    return team[pos];
 }
 
 void Entrenador::editarNombre()
@@ -62,10 +47,15 @@ void Entrenador::editarNombre()
 void Entrenador::mostrarEntrenador()
 {
     std::cout << "Este es el perfil de " << nombre << std::endl;
-    std::cout << "Su primer equipo se llama " << team1.getNombre() << " y tiene los siguientes pokemones:\n\t" << team1.getPokemon1().getNombre() << " como " << team1.getPokemon1().getPoki() << "\n\t" << team1.getPokemon2().getNombre() << " como " << team1.getPokemon2().getPoki() << "\n\t" << team1.getPokemon3().getNombre() << " como " << team1.getPokemon3().getPoki() << std::endl;
-    if(team2.getNombre() != "")
+    std::cout << "Su primer equipo se llama " << team[0].getNombre() << " y tiene los siguientes pokemones:\n";
+    for (int i = 0; i < 3; i++)
+        std::cout << "\t" << team[0].getPokemon(i).getNombre() << " como " << team[0].getPokemon(i).getPoki() << ", es un tipo " << team[0].getPokemon(i).getTipo() << " y puede usar los movimientos: " << team[0].getPokemon(i).getMov(0) << " y " << team[0].getPokemon(i).getMov(1) << std::endl;
+    if (team[1].getNombre() != "3quipoX002")
     {
-        std::cout << "Su segundo equipo se llama " << team2.getNombre() << " y tiene los siguientes pokemones:\n\t" << team2.getPokemon1().getNombre() << " como " << team2.getPokemon1().getPoki() << "\n\t" << team2.getPokemon2().getNombre() << " como " << team2.getPokemon2().getPoki() << "\n\t" << team2.getPokemon3().getNombre() << " como " << team2.getPokemon3().getPoki() << std::endl;
+        std::cout << "Su segundo equipo se llama " << team[1].getNombre() << " y tiene los siguientes pokemones:\n\t";
+        for (int i = 0; i < 3; i++)
+            std::cout << "\t" << team[1].getPokemon(i).getNombre() << " como " << team[1].getPokemon(i).getPoki() << ", es un tipo " << team[1].getPokemon(i).getTipo() << " y puede usar los movimientos: " << team[1].getPokemon(i).getMov(0) << " y " << team[1].getPokemon(i).getMov(1) << std::endl;
+    
     }
     system("pause");
 }

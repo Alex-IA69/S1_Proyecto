@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 
@@ -7,10 +8,9 @@
 #include <time.h>
 #include <stdexcept>
 
-#include "Pokemon.h"
 #include "Entrenador.h"
+#include "Pokemon.h"
 #include "Equipo.h"
-#include "Movimientos.h"
 
 
 using namespace std;
@@ -28,7 +28,6 @@ void prepararEquipo(char);
 Entrenador trainer1, trainer2;
 Equipo team;
 Pokemon tempPoke;
-Movimientos tempMove;
 string pokemonConjunto1[6], pokemonConjunto2[6];
 int victorias = 0;
 
@@ -66,184 +65,17 @@ int main(){
     {
         //---------------------------------------------------------Caso entrenador
         case '1':
-            casoEntrenador:
-            cout << "Cual entrenador te gustaria checar?\n" << "\t1) Entrenador 1\n" << "\t2) Entrenador 2\n" << "\t3) Regresar al menu\n" << ">>> ";
-            cin >> opcion;
-            if (opcion == '1')//Entrenador 1
-            {
-                Entrenador1:
-                cout << "Que quiere hacer?\n\t1) Editar entrenador\n\t2) Mostrar entrenador\n\t3) Regresar\n>>> ";
-                cin >> opcion;
-                if (opcion == '1')
-                {
-                    Entrenador1Edit:
-                    cout << "Que quiere editar?\n\t1) Nombre\n\t2) Equipo\n\t3) Regresar\n>>> ";
-                    cin >> opcion;      
-                    if (opcion == '1')//Editar nombre
-                    {
-                        CrearPerfil2:
-                        trainer1.editarNombre();
-                        goto Entrenador1Edit;
-                    }
-                    else if (opcion == '2')//Editar equipo
-                    {
-                        Equipo1Edit:
-                        cout << "Que equipo desea modificar? 1 o 2?\n>>> ";
-                        cin >> eq;
-                        if (eq == '1' || eq == '2')
-                        {
-                            cout << "Para modificar un equipo, se reemplazan los 3 pokemones y se debe elegir un nuevo nombre. \nEl proceso no se puede interrumpir. Esta seguro? S/N\n>>> ";
-                            cin >> opcion;
-                            if(opcion == 'S' || opcion == 's')
-                            {
-                                system("cls");
-                                inicio();
-                                if (eq == '1')
-                                    trainer1.setTeam1(team);
-                                else
-                                    trainer1.setTeam2(team);
-                                goto ReinicioMenu;
-                            }
-                            else
-                            {goto Equipo1Edit;}
-                        }else
-                        {goto Entrenador1Edit;}
-                    }else
-                    {goto Entrenador1;}
-                }  
-                else if (opcion == '2')//Mostrar entrenador
-                    {trainer1.mostrarEntrenador();  
-                    goto Entrenador1;}       
-                else
-                    goto casoEntrenador;
-            }
-            else if (opcion == '2')//____________________________________________________________________________Entrenador 2
-            {
-                Entrenador2:
-                if (trainer2.getNombre() == "")//No tiene datos previos
-                {
-                    cout << "Parece que Entrenador 2 esta vacio, te gustaria crear Entrenador 2? S/N\n" << ">>> ";
-                    cin >> opcion;
-                    if (opcion == 'S' || opcion == 's')
-                    {
-                        cout << "Que nombre te gustaria ponerle a este entrenador?" << "\n>>> ";
-                        cin >> nombre;
-                        trainer2.setNombre(nombre);
-                        inicio();
-                        trainer2.setTeam1(team);
-                        goto Entrenador2;
-                    }else
-                        goto Entrenador2;
-                }
-                else                          //Ya tiene datos previos
-                {
-                    cout << "Que quiere hacer?\n\t1) Editar entrenador\n\t2) Mostrar entrenador\n\t3) Regresar\n>>> ";
-                    cin >> opcion;
-                    if (opcion == '1')
-                    {
-                        Entrenador2Edit:
-                        cout << "Que quiere editar?\n\t1) Nombre\n\t2) Equipo\n\t3) Regresar\n>>> ";
-                        cin >> opcion;
-                        if (opcion == '1')//Editar nombre
-                        {
-                            trainer2.editarNombre();
-                            goto Entrenador2Edit;
-                        }
-                        else if (opcion == '2')//Editar equipo
-                        {
-                            Equipo2Edit:
-                            cout << "Que equipo desea modificar? 1 o 2?\n>>> ";
-                            cin >> eq;
-                            if (eq == '1' || eq == '2')
-                            {
-                                cout << "Para modificar un equipo, se reemplazan los 3 pokemones y se debe elegir un nuevo nombre. \nEl proceso no se puede interrumpir. Esta seguro? S/N\n>>> ";
-                                cin >> opcion;
-                                if(opcion == 'S' || opcion == 's')
-                                {
-                                    system("cls");
-                                    inicio();
-                                    if (eq == '1')
-                                        trainer2.setTeam1(team);
-                                    else
-                                        trainer2.setTeam2(team);
-                                    goto Entrenador2Edit;
-                                }
-                                else
-                                {goto Equipo2Edit;}
-                            }else
-                            {goto Entrenador2Edit;}
-                        }else
-                        {goto Entrenador2;}
-                    }
-                    else if (opcion == '2')//Mostrar entrenador
-                        {trainer2.mostrarEntrenador();
-                        goto Entrenador2Edit;}
-                    else
-                        goto casoEntrenador;
-                }
-            }
-            else
-                goto ReinicioMenu;
             break;
+
         //---------------------------------------------------------Caso Pokemones (Pokedex)
         case '2':
-            while(ciclo){
-                cout << "Bienvenido a la pokedex!! de que pokemon te gustaria saber su descripcion?\n";
-                for(int i = 0; i < 14; i++)
-                    cout << i + 1 << ") " << pokemones[i] << endl;
-
-                cout << "15) Salir de pokedex\n" << ">>> ";
-                cin >> opc;
-
-                if(opc == 15)
-                    ciclo = false;
-                else{
-                    tempPoke.dibujar(opc, pokemones);
-                    printf("\n");
-                    tempPoke.descripcion(opc, pokemones);
-                    system("pause");
-                    puntitos();
-                }
-            }
-            goto ReinicioMenu;
             break;
+
         //---------------------------------------------------------Caso Pelear
         case '3':
-        Pelea:
-            if(verificarPlayer2())
-            {
-                cout << "Antes de pelear necesitas seleccionar un equipo:\n1) Equipo 1\n2) Equipo 2\n" << ">>>";
-                cin >> opcion;
-                switch(opcion)
-                {
-                case '1':
-                    prepararEquipo(opcion);
-                    tempPoke.pelear(pokemonConjunto1, pokemonConjunto2);
-                    break;
-
-                case '2':
-                    prepararEquipo(opcion);
-                    break;
-                
-                default:
-                    cout << "Utiliza solo las opciones de 1 o 2" << ".";
-                    puntitos();
-                    goto Pelea;
-                    break;
-                }
-            }
-
-            else{
-                cout << "Error, el perfil numreo 2 tiene que estar creado para poder pelear, volviendo al menu de inicio" << ">>>";
-                puntitos();
-                goto ReinicioMenu;
-            }
-            goto ReinicioMenu;
             break;
             
         case '4':
-            cout << "Hasta la proxima, espero verte aqui de nuevo!!" << endl;
-            puntitos();
             break;
     }
 
@@ -317,7 +149,7 @@ void crearPokemon()
 
     //initError2
     initError2:
-    cout << "He aqui la lista de pokemones:\n" <<
+    cout << "Lista de pokemones disponibles:\n" <<
             "\t1.  Rattata 2.   Zubat     3.  Machop   4. Squirtle   5. Vulpix   6. Bulbasaur   7. Voltorb\n" <<
             "\t8.  Lapras  9.   Caterpie 10. Geodude  11.  Cubone   12.  Abra   13.  Ghastly   14.  Ekans\n";
     cout << "------------------------------\n" <<
@@ -480,3 +312,4 @@ void prepararEquipo(char opc)
         pokemonConjunto2[6] = trainer2.getTeam2().getPokemon3().getPoki();
     }
 }
+*/
